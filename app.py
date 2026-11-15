@@ -1,6 +1,7 @@
 
 import psycopg2
 from getpass import getpass
+from datetime import datetime, date
 
 # PostgreSQL connection settings
 DB_HOST = "localhost"
@@ -33,11 +34,34 @@ def getAllStudents():
     cursor.execute("SELECT * FROM students ORDER BY student_id;")
 
     students = cursor.fetchall()
+    print("-------------------------Student Records-------------------------")
+    print(" Student ID | First Name | Last Name | Email | Enrollment Date")
+    print("-----------------------------------------------------------------")
     for student in students:
         print(student)
+    print("-----------------------------------------------------------------")
 
 def addStudent(first_name, last_name, email, enrollment_date):
     """ Inserts a new student record into the students table. """
+
+    # Validate enrollment date
+    try:
+        enrollment_date = datetime.strptime(
+            enrollment_date, "%Y-%m-%d"
+        ).date()
+
+    except ValueError:
+        print("Invalid enrollment date. Please use YYYY-MM-DD.")
+        return
+
+    # Validate name and email
+    if not first_name.strip() or not last_name.strip() or not email.strip():
+        print("First name, last name, and email are required.")
+        return
+    if '@' not in email:
+        print("Invalid email. (Must contain '@')")
+        return
+
     query = """ 
                 INSERT INTO students 
                 (first_name, last_name, email, enrollment_date) 
@@ -47,10 +71,16 @@ def addStudent(first_name, last_name, email, enrollment_date):
     cursor.execute(query,
             (first_name, last_name, email, enrollment_date))
 
-    print("Student added successfully.")
+    connection.commit()
+    print(f"Student added successfully!")
 
 def updateStudentEmail(student_id, new_email):
-    """ Updates the email address for a student with the specified student_id. """
+    """ Updates the email address for a student with the specified student_id. """\
+    # Validate email
+    if not new_email or '@' not in new_email:
+        print("Invalid email. (Must contain '@')")
+        return
+    
     query = """ 
                 UPDATE students
                 SET email = %s
@@ -59,10 +89,11 @@ def updateStudentEmail(student_id, new_email):
 
     cursor.execute(query, (new_email, student_id))
 
+    connection.commit()
     if cursor.rowcount == 0:
         print("Student not found.")
     else:
-        print("Student email updated successfully.")
+        print(f"Student email updated successfully!")
 
 def deleteStudent(student_id):
     """ Deletes the record of the student with the specified student_id. """
@@ -73,10 +104,11 @@ def deleteStudent(student_id):
 
     cursor.execute(query, (student_id,))
 
+    connection.commit()
     if cursor.rowcount == 0:
         print("Student not found.")
     else:
-        print("Student deleted successfully.")
+        print("Student deleted successfully!")
 
 def main():
     """ Run application menu for student database management. """
@@ -130,18 +162,22 @@ def main():
                 deleteStudent(student_id)
 
             elif choice == "5":
-                print("Exiting program.")
+                print("Exiting program...")
                 break
 
             else:
                 print("Invalid choice. Try again.")
 
         except (ValueError, psycopg2.Error) as error:
+            connection.rollback()
             print(f"Operation failed: {error}")
 
     connection.commit()  # Commit any changes made during the session
+    cursor.close()  
     connection.close()
-    print("Database connection closed.")
+    print("************************************************")
+    print("     Database connection closed. Thank you!     ")
+    print("************************************************")
 
 
 if __name__ == "__main__":
