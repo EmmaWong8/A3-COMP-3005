@@ -3,6 +3,9 @@ Student Database System and Application
 
 Author: Emma Wong (101297761)
 
+## Demonstration Video
+https://vimeo.com/1247067344?fl=ip&fe=ec&share=copy
+
 ## Description
 This application connects to a PostgreSQL database and performs CRUD (Create, Read, Update, Delete) operations on a `students` table using Python and the `psycopg2` library.
 
@@ -74,6 +77,3 @@ After entering your PostgreSQL password, the application will connect to the dat
 Enter a number from 1 to 5 to perform the corresponding operation.
 
 For adding students, enter the enrollment date in `YYYY-MM-DD` format.
-
-## Demonstration Video
-
