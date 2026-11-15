@@ -77,7 +77,7 @@ def addStudent(first_name, last_name, email, enrollment_date):
 def updateStudentEmail(student_id, new_email):
     """ Updates the email address for a student with the specified student_id. """\
     # Validate email
-    if not new_email or '@' not in new_email:
+    if not new_email.strip() or '@' not in new_email:
         print("Invalid email. (Must contain '@')")
         return
     
@@ -172,7 +172,6 @@ def main():
             connection.rollback()
             print(f"Operation failed: {error}")
 
-    connection.commit()  # Commit any changes made during the session
     cursor.close()  
     connection.close()
     print("************************************************")
