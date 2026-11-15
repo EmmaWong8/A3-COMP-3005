@@ -4,7 +4,7 @@ Student Database System and Application
 Author: Emma Wong (101297761)
 
 ## Demonstration Video
-https://vimeo.com/1247067344?fl=ip&fe=ec&share=copy
+https://vimeo.com/1247067344?share=copy
 
 ## Description
 This application connects to a PostgreSQL database and performs CRUD (Create, Read, Update, Delete) operations on a `students` table using Python and the `psycopg2` library.
