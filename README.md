@@ -1,6 +1,6 @@
 # COMP 3005 - Assignment 3 Question 1
-# Student Database System and Application
-# Author: Emma Wong (101297761)
+Student Database System and Application
+Author: Emma Wong (101297761)
 
 ## Description
 This application connects to a PostgreSQL database and performs CRUD (Create, Read, Update, Delete) operations on a `students` table using Python and the `psycopg2` library.
