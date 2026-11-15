@@ -1,5 +1,6 @@
 # COMP 3005 - Assignment 3 Question 1
 Student Database System and Application
+
 Author: Emma Wong (101297761)
 
 ## Description
